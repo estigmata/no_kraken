@@ -1,1 +1,3 @@
-# no_kraken
+# FA_TRAINER
+## Requirements
+* Open JDK 11
