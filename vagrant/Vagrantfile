@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'vagrant-openstack-provider'
+require 'yaml'
+
+settings = YAML.load_file 'scripts/config.yml'
+
+Vagrant.configure('2') do |config|
+  config.ssh.username = 'ubuntu'
+  config.ssh.private_key_path = settings['key_path']
+
+  config.vm.provider :openstack do |os, override|
+    os.identity_api_version = '3'
+    os.openstack_auth_url = settings['auth_url']
+    os.domain_name = settings['domain_name']
+    os.username = settings['username']
+    os.password = settings['password']
+    os.tenant_name = settings['tenant_name']
+    os.project_name = settings['project_name']
+    os.keypair_name = settings['keypair_name']
+    os.image = settings['image']
+    os.flavor = settings['flavor']
+    os.server_name = settings['server_name']
+    override.vm.synced_folder '.', '/vagrant', disabled:true
+  end
+
+end
